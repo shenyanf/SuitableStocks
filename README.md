@@ -1,5 +1,5 @@
 # CollectStockInfo
-Collect stocks information just for Shanghai Stock Exchange and  Shenzhen Stock Exchange.
+Collect and analysis stocks information just for Shanghai Stock Exchange and  Shenzhen Stock Exchange.
 
 1.Submit depends jars to github failed serval times, so store depends jars to Baidu Cloud.When you want to see or use this repository, please download it at first time.The depends jars url: http://pan.baidu.com/s/1hrrQbsg
 
