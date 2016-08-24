@@ -15,3 +15,9 @@
 3.Thank you for looking this readme.
 
 ![](http://img.blog.csdn.net/20160117120445235?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
+问题
+1.为什么没有把数据存到数据库？
+因为当时公司电脑和个人电脑同步不太方便，存到xls可以随时随地使用；数据量并不大；当时想学习java读写xls方面的知识；综合以上三个方面并没有选择使用数据库。
+2.为什么好多类名和方法名不太容易理解？
+暂时还没有重新整理，有一些不便于理解的地方还没有修改，一些不太容易理解的代码路径还没有调整。
