@@ -1,4 +1,4 @@
-package com.shen.zlzj;
+ï»¿package com.shen.zlzj;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,12 +31,13 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
-import com.shen.Util;
+import com.shen.AllStocks;
+import com.shen.helper.Util;
 
 public class MNIOFCartogram {
 	private String stockCode;
 	private HashMap<String, List<String>> resMap;
-	private String fileName = Util.filePath + File.separator + "Ö÷Á¦×Ê½ğ¾»Á÷Ïò" + ".xls";
+	private String fileName = Util.filePath + File.separator + "ä¸»åŠ›èµ„é‡‘å‡€æµå‘" + ".xls";
 
 	public MNIOFCartogram(String stockCode) {
 		this.stockCode = stockCode;
@@ -48,9 +49,12 @@ public class MNIOFCartogram {
 		HashMap<String, List<String>> hashMap = cartogram.getZLZJData();
 		cartogram.appendToExcel();
 		/*
-		 * Pattern pattern = Pattern.compile(".*(<span.*>)(.*)(</span>).*", Pattern.DOTALL); String str =
-		 * "<td> <span class=\"green\">-494Íò</span> </td>"; Matcher matcher = pattern.matcher(str); if (matcher.find())
-		 * System.out.println(matcher.group()); System.out.println(matcher.group());
+		 * Pattern pattern = Pattern.compile(".*(<span.*>)(.*)(</span>).*",
+		 * Pattern.DOTALL); String str =
+		 * "<td> <span class=\"green\">-494ä¸‡</span> </td>"; Matcher matcher =
+		 * pattern.matcher(str); if (matcher.find())
+		 * System.out.println(matcher.group());
+		 * System.out.println(matcher.group());
 		 */
 	}
 
@@ -59,17 +63,17 @@ public class MNIOFCartogram {
 		Workbook workbook = null;
 		File file = null;
 		WritableWorkbook writableWorkbook = null;
-		String stockName = Util.getStockName(stockCode);
+		String stockName = AllStocks.getStockName(stockCode);
 
 		try {
 			file = new File(fileName);
 
-			/* Èç¹ûÎÄ¼ş´æÔÚ */
+			/* å¦‚æœæ–‡ä»¶å­˜åœ¨ */
 			if (file.exists()) {
 				workbook = Workbook.getWorkbook(file);
 				writableWorkbook = Workbook.createWorkbook(file, workbook);
 
-				/* ²»´æÔÚÓë¹ÉÆ±Ãû³ÆµÄµ¥Ôª±í£¬´´½¨ĞÂµÄµ¥Ôª±í */
+				/* ä¸å­˜åœ¨ä¸è‚¡ç¥¨åç§°çš„å•å…ƒè¡¨ï¼Œåˆ›å»ºæ–°çš„å•å…ƒè¡¨ */
 				if (!Arrays.toString(writableWorkbook.getSheetNames()).contains(stockName)) {
 					sheet = writableWorkbook.createSheet(stockName, writableWorkbook.getNumberOfSheets() + 1);
 					createTitle(sheet);
@@ -77,7 +81,7 @@ public class MNIOFCartogram {
 			} else {
 				writableWorkbook = Workbook.createWorkbook(file);
 				System.out.println(stockName);
-				/* Éú³ÉÃûÎªkeyµÄ¹¤×÷±í */
+				/* ç”Ÿæˆåä¸ºkeyçš„å·¥ä½œè¡¨ */
 				sheet = writableWorkbook.createSheet(stockName, writableWorkbook.getNumberOfSheets() + 1);
 
 				createTitle(sheet);
@@ -104,8 +108,8 @@ public class MNIOFCartogram {
 	}
 
 	public void createTitle(WritableSheet sheet) throws RowsExceededException, WriteException {
-		String netAmount = "¾»¶î(Íò)";
-		String percent = "¾»Õ¼±È(%)";
+		String netAmount = "å‡€é¢(ä¸‡)";
+		String percent = "å‡€å æ¯”(%)";
 
 		sheet.mergeCells(0, 0, 0, 1);
 		sheet.mergeCells(1, 0, 1, 1);
@@ -116,31 +120,31 @@ public class MNIOFCartogram {
 		sheet.mergeCells(9, 0, 10, 0);
 		sheet.mergeCells(11, 0, 12, 0);
 
-		sheet.addCell(new Label(0, 0, "ÈÕÆÚ"));
-		sheet.addCell(new Label(1, 0, "ÊÕÅÌ¼Û"));
-		sheet.addCell(new Label(2, 0, "ÕÇµø·ù"));
+		sheet.addCell(new Label(0, 0, "æ—¥æœŸ"));
+		sheet.addCell(new Label(1, 0, "æ”¶ç›˜ä»·"));
+		sheet.addCell(new Label(2, 0, "æ¶¨è·Œå¹…"));
 
-		sheet.addCell(new Label(3, 0, "Ö÷Á¦¾»Á÷Èë"));
+		sheet.addCell(new Label(3, 0, "ä¸»åŠ›å‡€æµå…¥"));
 		sheet.addCell(new Label(3, 1, netAmount));
 		sheet.addCell(new Label(4, 1, percent));
 
-		sheet.addCell(new Label(5, 0, "³¬´óµ¥¾»Á÷Èë"));
+		sheet.addCell(new Label(5, 0, "è¶…å¤§å•å‡€æµå…¥"));
 		sheet.addCell(new Label(5, 1, netAmount));
 		sheet.addCell(new Label(6, 1, percent));
 
-		sheet.addCell(new Label(7, 0, "´óµ¥¾»Á÷Èë"));
+		sheet.addCell(new Label(7, 0, "å¤§å•å‡€æµå…¥"));
 		sheet.addCell(new Label(7, 1, netAmount));
 		sheet.addCell(new Label(8, 1, percent));
 
-		sheet.addCell(new Label(9, 0, "ÖĞµ¥¾»Á÷Èë"));
+		sheet.addCell(new Label(9, 0, "ä¸­å•å‡€æµå…¥"));
 		sheet.addCell(new Label(9, 1, netAmount));
 		sheet.addCell(new Label(10, 1, percent));
 
-		sheet.addCell(new Label(11, 0, "Ğ¡µ¥¾»Á÷Èë"));
+		sheet.addCell(new Label(11, 0, "å°å•å‡€æµå…¥"));
 		sheet.addCell(new Label(11, 1, netAmount));
 		sheet.addCell(new Label(12, 1, percent));
 
-		// sheet.addCell(new Label(14, 0, "µ±ÈÕ¾»Á÷Èë"));
+		// sheet.addCell(new Label(14, 0, "å½“æ—¥å‡€æµå…¥"));
 	}
 
 	public void appendToExcel() {
@@ -155,16 +159,16 @@ public class MNIOFCartogram {
 		double valueInt = 0;
 		Date lastestDate = null;
 
-		String stockName = Util.getStockName(stockCode);
+		String stockName = AllStocks.getStockName(stockCode);
 
-		/* ÅÅĞò»ñÈ¡µ½µÄÈÕÆÚ */
+		/* æ’åºè·å–åˆ°çš„æ—¥æœŸ */
 		List<Object> keyList = sortHashMapKey(resMap);
 
-		// ÉèÖÃ×ÖÌå;
+		// è®¾ç½®å­—ä½“;
 		WritableFont redFont = new WritableFont(WritableFont.TAHOMA, 10, WritableFont.NO_BOLD, false,
-		        UnderlineStyle.NO_UNDERLINE, Colour.RED);
+				UnderlineStyle.NO_UNDERLINE, Colour.RED);
 		WritableFont greenFont = new WritableFont(WritableFont.TAHOMA, 10, WritableFont.NO_BOLD, false,
-		        UnderlineStyle.NO_UNDERLINE, Colour.GREEN);
+				UnderlineStyle.NO_UNDERLINE, Colour.GREEN);
 		WritableCellFormat redCellFormat = new WritableCellFormat(redFont);
 		WritableCellFormat greenCellFormat = new WritableCellFormat(greenFont);
 
@@ -174,14 +178,14 @@ public class MNIOFCartogram {
 			writableWorkbook = Workbook.createWorkbook(file, workbook);
 			sheet = writableWorkbook.getSheet(stockName);
 
-			/* ×ÖÌå´óĞ¡×ÔÊÊÓ¦ */
+			/* å­—ä½“å¤§å°è‡ªé€‚åº” */
 			CellView cellView = new CellView();
 			cellView.setAutosize(true);
 			sheet.setColumnView(0, cellView);
 			sheet.setRowView(0, cellView);
 			row = sheet.getRows();
 
-			/* È·¶¨µ¥Ôª±í×îºóÒ»ĞĞµÄÈÕÆÚ£¬Èç¹ûÊÇĞÂ½¨µÄ±í¸ñÉèÖÃ×îºóĞ´ÈëµÄÈÕÆÚÎª1970-1-1 */
+			/* ç¡®å®šå•å…ƒè¡¨æœ€åä¸€è¡Œçš„æ—¥æœŸï¼Œå¦‚æœæ˜¯æ–°å»ºçš„è¡¨æ ¼è®¾ç½®æœ€åå†™å…¥çš„æ—¥æœŸä¸º1970-1-1 */
 			String lastestDateStr = sheet.getCell(0, row - 1).getContents();
 			if (lastestDateStr != null && !lastestDateStr.equals("")) {
 				lastestDate = DateFormat.getDateInstance().parse(lastestDateStr);
@@ -189,13 +193,13 @@ public class MNIOFCartogram {
 				lastestDate = DateFormat.getDateInstance().parse("1970-1-1");
 			}
 
-			/* ¸ù¾İÈÕÆÚĞ´ÈëÏà¹ØÊı¾İ */
+			/* æ ¹æ®æ—¥æœŸå†™å…¥ç›¸å…³æ•°æ® */
 			if (keyList != null && !keyList.isEmpty()) {
 				for (int i = 0; i < keyList.size(); i++, row++) {
 					column = 0;
 					key = keyList.get(i).toString();
 
-					/* ÅĞ¶ÏÊÇ·ñ¼ÌĞøĞ´ÈëÊı¾İ */
+					/* åˆ¤æ–­æ˜¯å¦ç»§ç»­å†™å…¥æ•°æ® */
 					int compareValue = lastestDate.compareTo(DateFormat.getDateInstance().parse(key.trim()));
 					if (compareValue >= 0) {
 						continue;
@@ -203,12 +207,12 @@ public class MNIOFCartogram {
 
 					sheet.addCell(new Label(column++, row, key));
 
-					/* Ğ´Èë¹ÉÆ±Ïà¹ØÖ¸±êÖ¸ */
+					/* å†™å…¥è‚¡ç¥¨ç›¸å…³æŒ‡æ ‡æŒ‡ */
 					for (int j = 0; j < resMap.get(key).size(); j++) {
 						String value = resMap.get(key).get(j);
 						if (!value.equals("-")) {
 
-							/* ¸ù¾İÖµÉèÖÃ×ÖÌåÑÕÉ« */
+							/* æ ¹æ®å€¼è®¾ç½®å­—ä½“é¢œè‰² */
 							String numberStr = getNumberFromString(value);
 							if (numberStr != null) {
 								valueInt = Double.valueOf(numberStr);
@@ -220,7 +224,7 @@ public class MNIOFCartogram {
 								label.setCellFormat(redCellFormat);
 							}
 
-							/* ¸ù¾İÕÇ·ùÉèÖÃÊÕÅÌ¼ÛÑÕÉ« */
+							/* æ ¹æ®æ¶¨å¹…è®¾ç½®æ”¶ç›˜ä»·é¢œè‰² */
 							if ((j == 0) && (Double.valueOf(getNumberFromString(resMap.get(key).get(1))) < 0.00d)) {
 								label.setCellFormat(greenCellFormat);
 							}
@@ -229,18 +233,20 @@ public class MNIOFCartogram {
 						}
 					}
 
-					/* Ğ´Èëµ±ÈÕ¾»Á÷ÈëÖ®ºÍ */
+					/* å†™å…¥å½“æ—¥å‡€æµå…¥ä¹‹å’Œ */
 					/*
-					 * sumColumn = row + 1; getSum = "SUM(" + "F" + sumColumn + ",H" + sumColumn + ",J" + sumColumn +
-					 * ",L" + sumColumn + ")"; sheet.addCell(new Formula(14, row, getSum)); sheet.addCell(new
-					 * Formula(years + 3, row, "AVERAGE(" + countRegion + ")"));
+					 * sumColumn = row + 1; getSum = "SUM(" + "F" + sumColumn +
+					 * ",H" + sumColumn + ",J" + sumColumn + ",L" + sumColumn +
+					 * ")"; sheet.addCell(new Formula(14, row, getSum));
+					 * sheet.addCell(new Formula(years + 3, row, "AVERAGE(" +
+					 * countRegion + ")"));
 					 */
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			/* Ğ´ÈëÊı¾İ²¢¹Ø±ÕÎÄ¼ş£¬·ñÔòÎÄ¼ş»áËğ»µ */
+			/* å†™å…¥æ•°æ®å¹¶å…³é—­æ–‡ä»¶ï¼Œå¦åˆ™æ–‡ä»¶ä¼šæŸå */
 			try {
 				writableWorkbook.write();
 			} catch (IOException e1) {
@@ -288,7 +294,9 @@ public class MNIOFCartogram {
 		// System.out.println(targetElement.outerHtml());
 		resMap = new HashMap<String, List<String>>();
 		Node table = null;
-		/* the example is <th class="tips-colname-Left"><span>Ã¿¹ÉÖ¸±ê</span></th> */
+		/*
+		 * the example is <th class="tips-colname-Left"><span>æ¯è‚¡æŒ‡æ ‡</span></th>
+		 */
 		Pattern patternTd = Pattern.compile(".*(<td>)(.*)(</td>).*", Pattern.DOTALL);
 		Pattern patternSpan = Pattern.compile(".*(<span.*>)(.*)(</span>).*", Pattern.DOTALL);
 		Matcher matcher = null;
@@ -307,12 +315,14 @@ public class MNIOFCartogram {
 				if (matcher.find()) {
 					expectRes = matcher.group(2);
 
-					/* if result has span tag, save as value ,else save as key */
+					/*
+					 * if result has span tag, save as value ,else save as key
+					 */
 					if (expectRes.contains("span")) {
 						matcher = patternSpan.matcher(s);
 						if (matcher.find()) {
 							expectRes = matcher.group(2);
-							// values.add(expectRes.trim().split("Íò")[0].split("%")[0]);
+							// values.add(expectRes.trim().split("ä¸‡")[0].split("%")[0]);
 							values.add(expectRes.trim());
 						}
 					} else {

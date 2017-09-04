@@ -1,4 +1,4 @@
-package com.shen;
+ï»¿package com.shen.report;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import com.shen.AllTrades;
+import com.shen.TradeStocks;
+import com.shen.entity.StockInfo;
+import com.shen.helper.Indexs;
+import com.shen.operatexlsx.ParseStockInfoFromXLS;
 
 import jxl.CellView;
 import jxl.Workbook;
@@ -25,15 +31,15 @@ import jxl.write.WritableWorkbook;
 public class CreateReport {
 	public final static int years = 10;// count how many years data
 	private static String filePath = "d:\\stocks"; // store report to this absolute path
-	private static String LAST_FIVE_YEARS_VARA = "×î½üÎåÄê·½²î";
-	private static String LAST_FIVE_YEARS_AVERAGE = "×î½üÎåÄêÆ½¾ùÖµ";
+	private static String LAST_FIVE_YEARS_VARA = "æœ€è¿‘äº”å¹´æ–¹å·®";
+	private static String LAST_FIVE_YEARS_AVERAGE = "æœ€è¿‘äº”å¹´å¹³å‡å€¼";
 
 	public static void main(String[] args) {
 		CreateReport createReport = new CreateReport();
 		ParseStockInfoFromXLS parseStockInfoXLS = new ParseStockInfoFromXLS();
 		StockInfo stockInfo = new StockInfo("002672");
-		Stocks stocks = new Stocks();
-		stocks.getstockBasicInfo().put("002672", "¶«½­»·±£");
+		TradeStocks stocks = new TradeStocks();
+		stocks.getstockBasicInfo().put("002672", "ä¸œæ±Ÿç¯ä¿");
 
 		List<StockInfo> list = new ArrayList<StockInfo>();
 		list.add(stockInfo);
@@ -56,7 +62,7 @@ public class CreateReport {
 	 * @param list
 	 * @param stocks
 	 */
-	public void writeExcel(List<StockInfo> list, Stocks stocks) {
+	public void writeExcel(List<StockInfo> list, TradeStocks stocks) {
 		WritableWorkbook book = null;
 		WritableSheet sheet = null;
 		Indexs indexs = Indexs.getIndexs();
@@ -66,7 +72,7 @@ public class CreateReport {
 		int row = 0;
 		char startColumn = 'A' + years - 5;
 		char endColumn = 'A' + years - 1;
-		/* ·½²îºÍÆ½¾ùÖµÍ³¼ÆÇø¼ä */
+		/* æ–¹å·®å’Œå¹³å‡å€¼ç»Ÿè®¡åŒºé—´ */
 		String countRegion = null;
 		String fileName = filePath + File.separator;
 		if (stocks.getTradeName() != null) {
@@ -76,41 +82,41 @@ public class CreateReport {
 		}
 
 		try {
-			// ´ò¿ªÎÄ¼ş
+			// æ‰“å¼€æ–‡ä»¶
 			book = Workbook.createWorkbook(new File(fileName));
 			for (String key : indexs.getChineseToInterger().keySet()) {
 				System.out.println(key);
-				/* ²»ĞèÒªÄê·İµÄsheet */
-				if (key.equals("¿ÆÄ¿\\Ê±¼ä(Äê)")) {
+				/* ä¸éœ€è¦å¹´ä»½çš„sheet */
+				if (key.equals("ç§‘ç›®\\æ—¶é—´(å¹´)")) {
 					continue;
 				}
 
-				/* Éú³ÉÃûÎªkeyµÄ¹¤×÷±í£¬²ÎÊı0±íÊ¾ÕâÊÇµÚÒ»Ò³ */
+				/* ç”Ÿæˆåä¸ºkeyçš„å·¥ä½œè¡¨ï¼Œå‚æ•°0è¡¨ç¤ºè¿™æ˜¯ç¬¬ä¸€é¡µ */
 				sheet = book.createSheet(key, sheetNum++);
 				CellView cellView = new CellView();
-				cellView.setAutosize(true); // ÉèÖÃ×Ô¶¯´óĞ¡
+				cellView.setAutosize(true); // è®¾ç½®è‡ªåŠ¨å¤§å°
 
-				sheet.addCell(new Label(0, 0, "Äê·İ"));
+				sheet.addCell(new Label(0, 0, "å¹´ä»½"));
 
-				/* Éú³ÉÄê·İ±êÌâĞĞ */
+				/* ç”Ÿæˆå¹´ä»½æ ‡é¢˜è¡Œ */
 				for (int i = 1; i < years; i++) {
 					sheet.addCell(new Number(i, 0, Double.valueOf(currentYear - years + i)));
 				}
 
-				sheet.setColumnView(years + 2, cellView);// ¸ù¾İÄÚÈİ×Ô¶¯ÉèÖÃÁĞ¿í
-				sheet.setColumnView(years + 3, cellView);// ¸ù¾İÄÚÈİ×Ô¶¯ÉèÖÃÁĞ¿í
-				/* ·½²îºÍÆ½¾ùÖµ±êÌâÀ¸ */
+				sheet.setColumnView(years + 2, cellView);// æ ¹æ®å†…å®¹è‡ªåŠ¨è®¾ç½®åˆ—å®½
+				sheet.setColumnView(years + 3, cellView);// æ ¹æ®å†…å®¹è‡ªåŠ¨è®¾ç½®åˆ—å®½
+				/* æ–¹å·®å’Œå¹³å‡å€¼æ ‡é¢˜æ  */
 				sheet.addCell(new Label(years + 2, 0, LAST_FIVE_YEARS_VARA));
 				sheet.addCell(new Label(years + 3, 0, LAST_FIVE_YEARS_AVERAGE));
 
 				if (list != null && !list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
-						/* »ñµÃ¹ÉÆ±´úÂë */
+						/* è·å¾—è‚¡ç¥¨ä»£ç  */
 						String stockCode = list.get(i).getStockCode();
-						/* ¸ù¾İ¹ÉÆ±´úÂë»ñµÃ¹ÉÆ±Ãû³Æ */
+						/* æ ¹æ®è‚¡ç¥¨ä»£ç è·å¾—è‚¡ç¥¨åç§° */
 						sheet.addCell(new Label(0, i + 1, stocks.getstockBasicInfo().get(stockCode)));
 
-						/* ¸ù¾İÖ¸±êµÄºº×Ö»ñµÃÓ¢ÎÄµ¥´Ê */
+						/* æ ¹æ®æŒ‡æ ‡çš„æ±‰å­—è·å¾—è‹±æ–‡å•è¯ */
 						String englishword = indexs.getKeyFromValueOngetEnglishWordToChinese(key);
 						List<String> values = list.get(i).getInfos().get(englishword);
 						column = years;
@@ -118,7 +124,7 @@ public class CreateReport {
 
 						countRegion = "" + startColumn + (row + 1) + ":" + endColumn + (row + 1);
 
-						/* Ğ´Èë¹ÉÆ±Ïà¹ØÖ¸±êÖ¸ */
+						/* å†™å…¥è‚¡ç¥¨ç›¸å…³æŒ‡æ ‡æŒ‡ */
 						for (int j = 0; j < values.size(); j++) {
 							String value = values.get(j);
 							if (!value.equals("null")) {
@@ -126,14 +132,14 @@ public class CreateReport {
 							}
 						}
 
-						/* Ğ´Èë·½²îºÍÆ½¾ùÖµ */
+						/* å†™å…¥æ–¹å·®å’Œå¹³å‡å€¼ */
 						sheet.addCell(new Formula(years + 2, row, "VARA(" + countRegion + ")"));
 						sheet.addCell(new Formula(years + 3, row, "AVERAGE(" + countRegion + ")"));
 					}
 				}
 			}
 
-			// Ğ´ÈëÊı¾İ²¢¹Ø±ÕÎÄ¼ş
+			// å†™å…¥æ•°æ®å¹¶å…³é—­æ–‡ä»¶
 			book.write();
 		} catch (Exception e) {
 			e.printStackTrace();

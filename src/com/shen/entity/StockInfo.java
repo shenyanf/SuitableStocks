@@ -1,10 +1,12 @@
-package com.shen;
+ï»¿package com.shen.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+
+import com.shen.helper.Indexs;
 
 /**
  * stock info
@@ -17,18 +19,18 @@ public class StockInfo {
 	private String stockName;
 	private final static Indexs indexs = Indexs.getIndexs();
 	private List<String> years = new ArrayList<String>();
-	private List<String> basicEarningsPerShare = new ArrayList<String>();// »ù±¾Ã¿¹ÉÊÕÒæ
-	private List<String> netProfit = new ArrayList<String>();// ¾»ÀûÈó
-	private List<String> netProfitGrowthRat = new ArrayList<String>();// ¾»ÀûÈóÍ¬±ÈÔö³¤ÂÊ
-	private List<String> operationRevenue = new ArrayList<String>();// ÓªÒµ×ÜÊÕÈë
-	private List<String> operationRevenueGrowthRat = new ArrayList<String>();// ÓªÒµ×ÜÊÕÈëÍ¬±ÈÔö³¤ÂÊ
-	private List<String> netAssetsPerShare = new ArrayList<String>();// Ã¿¹É¾»×Ê²ú
-	private List<String> liability = new ArrayList<String>();// ×Ê²ú¸ºÕ®±ÈÂÊ
-	private List<String> eachCapitalReserveFund = new ArrayList<String>();// Ã¿¹É¹«»ı½ğ
-	private List<String> nonDistributionProfitPerShare = new ArrayList<String>();// Ã¿¹ÉÎ´·ÖÅäÀûÈó
-	private List<String> operatingCashFlowPerShare = new ArrayList<String>();// Ã¿¹É¾­ÓªÏÖ½ğÁ÷
-	private List<String> grossProfitMargin = new ArrayList<String>();// Ã«ÀûÂÊ
-	private List<String> inventoryTurnOver = new ArrayList<String>();// ¿â´æÖÜ×ªÂÊ
+	private List<String> basicEarningsPerShare = new ArrayList<String>();// åŸºæœ¬æ¯è‚¡æ”¶ç›Š
+	private List<String> netProfit = new ArrayList<String>();// å‡€åˆ©æ¶¦
+	private List<String> netProfitGrowthRat = new ArrayList<String>();// å‡€åˆ©æ¶¦åŒæ¯”å¢é•¿ç‡
+	private List<String> operationRevenue = new ArrayList<String>();// è¥ä¸šæ€»æ”¶å…¥
+	private List<String> operationRevenueGrowthRat = new ArrayList<String>();// è¥ä¸šæ€»æ”¶å…¥åŒæ¯”å¢é•¿ç‡
+	private List<String> netAssetsPerShare = new ArrayList<String>();// æ¯è‚¡å‡€èµ„äº§
+	private List<String> liability = new ArrayList<String>();// èµ„äº§è´Ÿå€ºæ¯”ç‡
+	private List<String> eachCapitalReserveFund = new ArrayList<String>();// æ¯è‚¡å…¬ç§¯é‡‘
+	private List<String> nonDistributionProfitPerShare = new ArrayList<String>();// æ¯è‚¡æœªåˆ†é…åˆ©æ¶¦
+	private List<String> operatingCashFlowPerShare = new ArrayList<String>();// æ¯è‚¡ç»è¥ç°é‡‘æµ
+	private List<String> grossProfitMargin = new ArrayList<String>();// æ¯›åˆ©ç‡
+	private List<String> inventoryTurnOver = new ArrayList<String>();// åº“å­˜å‘¨è½¬ç‡
 	private HashMap<String, List<String>> infos = new HashMap<String, List<String>>();
 
 	public StockInfo(String stockCode) {
@@ -235,16 +237,12 @@ public class StockInfo {
 		this.infos = infos;
 	}
 
-	public String getStockName(String stockCode) {
-		return Util.getStockName(stockCode);
+	public String getStockName() {
+		return stockName;
 	}
 
-	public String getStockName() {
-	    return stockName;
-    }
-
 	public void setStockName(String stockName) {
-	    this.stockName = stockName;
-    }
+		this.stockName = stockName;
+	}
 
 }

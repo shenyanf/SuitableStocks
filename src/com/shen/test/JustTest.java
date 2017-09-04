@@ -1,11 +1,12 @@
+ï»¿package com.shen.test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JustTest {
 
 	public static void main(String[] args) {
-		String str1 = "111æ©";
-		String str2 = "-222»¹ÊÇµØ·½";
+		String str1 = "111å§—";
+		String str2 = "-222è¿˜æ˜¯åœ°æ–¹";
 		String str3 = "3.33%";
 		String str4 = "-44.4sdfew";
 		Pattern pattern = Pattern.compile("(^-?\\d*\\.?\\d*).*");

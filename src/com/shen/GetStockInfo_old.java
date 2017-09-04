@@ -1,4 +1,4 @@
-package com.shen;
+ï»¿package com.shen;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,14 +23,14 @@ public class GetStockInfo_old {
 
 	public static void main(String[] args) throws IOException {
 		List<String> indexs = new ArrayList<String>();
-		indexs.add("Ã¿¹ÉÖ¸±ê");
-		indexs.add("Ã¿¹É¾»×Ê²ú(Ôª)");
-		indexs.add("ÓªÒµÊÕÈë(Ôª)");
-		indexs.add("¿Û·Ç¾»ÀûÈó(Ôª)");
-		indexs.add("ÓªÒµÊÕÈëÍ¬±ÈÔö³¤(%)");
-		indexs.add("¿Û·Ç¾»ÀûÈóÍ¬±ÈÔö³¤(%)");
-		indexs.add("×Ê²ú¸ºÕ®ÂÊ(%)");
-		indexs.add("Ã¿¹É¾­ÓªÏÖ½ğÁ÷(Ôª)");
+		indexs.add("æ¯è‚¡æŒ‡æ ‡");
+		indexs.add("æ¯è‚¡å‡€èµ„äº§(å…ƒ)");
+		indexs.add("è¥ä¸šæ”¶å…¥(å…ƒ)");
+		indexs.add("æ‰£éå‡€åˆ©æ¶¦(å…ƒ)");
+		indexs.add("è¥ä¸šæ”¶å…¥åŒæ¯”å¢é•¿(%)");
+		indexs.add("æ‰£éå‡€åˆ©æ¶¦åŒæ¯”å¢é•¿(%)");
+		indexs.add("èµ„äº§è´Ÿå€ºç‡(%)");
+		indexs.add("æ¯è‚¡ç»è¥ç°é‡‘æµ(å…ƒ)");
 
 		String stockCode = "sz002672";
 
@@ -65,7 +65,7 @@ public class GetStockInfo_old {
 		System.out.println(targetElement);
 		resMap = new HashMap<String, List<String>>();
 
-		/* the example is <th class="tips-colname-Left"><span>Ã¿¹ÉÖ¸±ê</span></th> */
+		/* the example is <th class="tips-colname-Left"><span>æ¯è‚¡æŒ‡æ ‡</span></th> */
 		Pattern pattern = Pattern.compile(".*(<span>)(.*)(</span>).*", Pattern.DOTALL);
 		Matcher matcher = null;
 		String expectRes = null;

@@ -1,4 +1,4 @@
-package com.shen;
+ï»¿package com.shen.operatexlsx;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
+
+import com.shen.entity.StockInfo;
+import com.shen.helper.Indexs;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -50,18 +53,18 @@ public class ParseStockInfoFromXLS {
 		InputStream instream = new FileInputStream(path);
 		readwb = Workbook.getWorkbook(instream);
 
-		// SheetµÄÏÂ±êÊÇ´Ó0¿ªÊ¼
-		// »ñÈ¡µÚÒ»ÕÅSheet±í
+		// Sheetçš„ä¸‹æ ‡æ˜¯ä»0å¼€å§‹
+		// è·å–ç¬¬ä¸€å¼ Sheetè¡¨
 		Sheet readsheet = readwb.getSheet(0);
 
-		// »ñÈ¡Sheet±íÖĞËù°üº¬µÄ×ÜÁĞÊı
+		// è·å–Sheetè¡¨ä¸­æ‰€åŒ…å«çš„æ€»åˆ—æ•°
 		int columns = readsheet.getColumns();
 		int rsColumns = (columns > 10) ? 10 : columns;
 
-		// »ñÈ¡Sheet±íÖĞËù°üº¬µÄ×ÜĞĞÊı
+		// è·å–Sheetè¡¨ä¸­æ‰€åŒ…å«çš„æ€»è¡Œæ•°
 		int rsRows = readsheet.getRows();
 
-		// »ñÈ¡Ö¸¶¨µ¥Ôª¸ñµÄ¶ÔÏóÒıÓÃ
+		// è·å–æŒ‡å®šå•å…ƒæ ¼çš„å¯¹è±¡å¼•ç”¨
 		for (int i = 0; i < rsRows; i++) {
 			for (int j = 0; j < rsColumns; j++) {
 				Cell cell = readsheet.getCell(j, i);

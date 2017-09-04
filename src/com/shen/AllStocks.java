@@ -15,30 +15,33 @@ import jxl.read.biff.BiffException;
  * @author heshanshan
  * 
  */
-public abstract class AllStocks {
-	static HashMap<String, String> allStockCodeAndName = init();
+public class AllStocks {
+	private static HashMap<String, String> allStockCodeAndName = init();
+
+	public AllStocks() {
+	}
 
 	public static HashMap<String, String> init() {
 		jxl.Workbook readwb = null;
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		InputStream instream;
 		try {
-			instream = AllStocks.class.getResourceAsStream("/" + "ÉÏÊĞ¹«Ë¾ÁĞ±í.xls");
+			instream = AllStocks.class.getResourceAsStream("/" + "ä¸Šå¸‚å…¬å¸åˆ—è¡¨.xls");
 
 			readwb = Workbook.getWorkbook(instream);
 
-			// SheetµÄÏÂ±êÊÇ´Ó0¿ªÊ¼
-			// »ñÈ¡µÚÒ»ÕÅSheet±í
+			// Sheetçš„ä¸‹æ ‡æ˜¯ä»0å¼€å§‹
+			// è·å–ç¬¬ä¸€å¼ Sheetè¡¨
 			Sheet readsheet = readwb.getSheet(0);
 
-			// »ñÈ¡Sheet±íÖĞËù°üº¬µÄ×ÜÁĞÊı,Ä¿Ç°Ö»ĞèÒª´úÂëºÍÃû³Æ
+			// è·å–Sheetè¡¨ä¸­æ‰€åŒ…å«çš„æ€»åˆ—æ•°,ç›®å‰åªéœ€è¦ä»£ç å’Œåç§°
 			// int columns = 2;
 			// readsheet.getColumns();
 
-			// »ñÈ¡Sheet±íÖĞËù°üº¬µÄ×ÜĞĞÊı
+			// è·å–Sheetè¡¨ä¸­æ‰€åŒ…å«çš„æ€»è¡Œæ•°
 			int rsRows = readsheet.getRows();
 
-			// »ñÈ¡Ö¸¶¨µ¥Ôª¸ñµÄ¶ÔÏóÒıÓÃ
+			// è·å–æŒ‡å®šå•å…ƒæ ¼çš„å¯¹è±¡å¼•ç”¨
 			for (int i = 0; i < rsRows; i++) {
 				String key = readsheet.getCell(0, i).getContents();
 				String value = readsheet.getCell(1, i).getContents();
@@ -56,6 +59,10 @@ public abstract class AllStocks {
 			e.printStackTrace();
 		}
 		return hashMap;
+	}
+
+	public static String getStockName(String stockCode) {
+		return allStockCodeAndName.get(stockCode);
 	}
 
 	@SuppressWarnings("unused")

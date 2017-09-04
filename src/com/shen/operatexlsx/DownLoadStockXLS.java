@@ -1,4 +1,4 @@
-package com.shen;
+﻿package com.shen.operatexlsx;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +10,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+
+import com.shen.entity.StockInfo;
+import com.shen.helper.Util;
 
 /**
  * download stock information from Internet in excel type
