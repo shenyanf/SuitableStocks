@@ -117,11 +117,7 @@ public class TradeStocks {
 		}
 		for (int i = 0; i < stockCodes.size(); i++) {
 			String code = stockCodes.get(i);
-			if (stockNames.get(i).length() > 0) {
-				stockBasicInfo.put(code, stockNames.get(i));
-			} else {
-				stockBasicInfo.put(code, AllStocks.getStockName(code));
-			}
+			stockBasicInfo.put(code, stockNames.get(i));
 		}
 		System.out.println(stockBasicInfo);
 

@@ -31,7 +31,6 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
-import com.shen.AllStocks;
 import com.shen.helper.Util;
 
 public class MNIOFCartogram {
@@ -63,7 +62,7 @@ public class MNIOFCartogram {
 		Workbook workbook = null;
 		File file = null;
 		WritableWorkbook writableWorkbook = null;
-		String stockName = AllStocks.getStockName(stockCode);
+		String stockName = "";
 
 		try {
 			file = new File(fileName);
@@ -159,7 +158,9 @@ public class MNIOFCartogram {
 		double valueInt = 0;
 		Date lastestDate = null;
 
-		String stockName = AllStocks.getStockName(stockCode);
+		// String stockName = AllStocks.getStockName(stockCode);
+
+		String stockName = "";
 
 		/* 排序获取到的日期 */
 		List<Object> keyList = sortHashMapKey(resMap);

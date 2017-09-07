@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import com.shen.AllStocks;
 import com.shen.TradeStocks;
 import com.shen.entity.StockInfo;
 import com.shen.operatexlsx.DownLoadStockXLS;
@@ -18,7 +17,6 @@ import jxl.read.biff.BiffException;
 public class Main {
 
 	public static void main(String[] args) {
-		AllStocks.getStockName("600606");
 		/*
 		 * 半导体及元件,白色家电,保险及其他,包装印刷,采掘服务,传媒,电力,电气设备,电子制造,房地产开发,非汽车交运,服装家纺,纺织制造,
 		 * 国防军工,公交,港口航运,公路铁路运输,钢铁,光学光电子,环保工程,化工合成材料,化工新材料,化学制品,化学制药,基础化学,机场航运,
