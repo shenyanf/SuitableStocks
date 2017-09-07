@@ -27,7 +27,7 @@ public class TradeStocks {
 	public static void main(String[] args) {
 		TradeStocks stocks = new TradeStocks("零售");
 		try {
-			stocks.getStockCode();
+			stocks.getStockCodeAndName();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ public class TradeStocks {
 		 */
 	}
 
-	TradeStocks(String tradeName) {
+	public TradeStocks(String tradeName) {
 		// if (getStockCodeAndName(tradeName) != null) {
 		// System.out.println("Get stock code and name about tade " + tradeName
 		// + "successful");
@@ -71,23 +71,7 @@ public class TradeStocks {
 		}
 	}
 
-	/**
-	 * get stock code and name about trade
-	 * 
-	 * @return
-	 * @throws JSONException
-	 */
-	public Boolean getStockCodeAndName() throws JSONException {
-		List<String> stockCode = getStockCode();
-
-		if (tradeName == null || stockCode == null) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
-	}
-
-	private List<String> getStockCode() throws JSONException {
+	public List<String> getStockCodeAndName() throws JSONException {
 		String body = null;
 		List<String> stockCodes = new ArrayList<String>();
 		List<String> stockNames = new ArrayList<String>();
@@ -132,7 +116,12 @@ public class TradeStocks {
 			}
 		}
 		for (int i = 0; i < stockCodes.size(); i++) {
-			stockBasicInfo.put(stockCodes.get(i), stockNames.get(i));
+			String code = stockCodes.get(i);
+			if (stockNames.get(i).length() > 0) {
+				stockBasicInfo.put(code, stockNames.get(i));
+			} else {
+				stockBasicInfo.put(code, AllStocks.getStockName(code));
+			}
 		}
 		System.out.println(stockBasicInfo);
 

@@ -1,4 +1,5 @@
 ﻿package com.shen.test;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ public class JustTest {
 		if (matcher.find()) {
 			System.out.println(matcher.group(1));
 		}
-		
+
 		System.out.println(Integer.valueOf("-433.3%"));
 	}
 

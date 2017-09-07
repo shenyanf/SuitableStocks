@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
+
+import com.shen.helper.Util;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -16,12 +19,18 @@ import jxl.read.biff.BiffException;
  * 
  */
 public class AllStocks {
-	private static HashMap<String, String> allStockCodeAndName = init();
+	private static Map<String, String> allStockCodeAndName = loadStockBasicInfoFromTHS();
 
 	public AllStocks() {
 	}
 
-	public static HashMap<String, String> init() {
+	/**
+	 * 从xlsx表中加载stockcode和name
+	 * 
+	 * @return hashmap
+	 */
+	@Deprecated
+	private static HashMap<String, String> init() {
 		jxl.Workbook readwb = null;
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		InputStream instream;
@@ -61,12 +70,21 @@ public class AllStocks {
 		return hashMap;
 	}
 
+	/**
+	 * 调用com.shen.helper.Util的方法，从同花顺上加载所有公司的编码和名称
+	 * 
+	 * @return Map<String,String>
+	 */
+	private static Map<String, String> loadStockBasicInfoFromTHS() {
+		System.out.println("从同花顺上加载所有公司的编码和名称");
+		return Util.loadAllStockCodeAndName();
+	}
+
 	public static String getStockName(String stockCode) {
 		return allStockCodeAndName.get(stockCode);
 	}
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		HashMap<String, String> hashMap = AllStocks.allStockCodeAndName;
+		System.out.println(AllStocks.allStockCodeAndName);
 	}
 }

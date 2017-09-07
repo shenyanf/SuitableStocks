@@ -65,7 +65,9 @@ public class GetStockInfo_old {
 		System.out.println(targetElement);
 		resMap = new HashMap<String, List<String>>();
 
-		/* the example is <th class="tips-colname-Left"><span>每股指标</span></th> */
+		/*
+		 * the example is <th class="tips-colname-Left"><span>每股指标</span></th>
+		 */
 		Pattern pattern = Pattern.compile(".*(<span>)(.*)(</span>).*", Pattern.DOTALL);
 		Matcher matcher = null;
 		String expectRes = null;
@@ -100,9 +102,10 @@ public class GetStockInfo_old {
 
 	private boolean checkChinese(String sourceString) {
 		/*
-		 * String regEx = "[\\u4e00-\\u9fa5]"; Pattern p = Pattern.compile(regEx); Matcher m = p.matcher(sourceString);
-		 * int count = 0; while (m.find()) { for (int i = 0; i <= m.groupCount(); i++) { count = count + 1; } } return
-		 * count > 0;
+		 * String regEx = "[\\u4e00-\\u9fa5]"; Pattern p =
+		 * Pattern.compile(regEx); Matcher m = p.matcher(sourceString); int
+		 * count = 0; while (m.find()) { for (int i = 0; i <= m.groupCount();
+		 * i++) { count = count + 1; } } return count > 0;
 		 */
 
 		return sourceString.getBytes().length == sourceString.length() ? false : true;

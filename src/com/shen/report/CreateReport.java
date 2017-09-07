@@ -30,7 +30,8 @@ import jxl.write.WritableWorkbook;
  */
 public class CreateReport {
 	public final static int years = 10;// count how many years data
-	private static String filePath = "d:\\stocks"; // store report to this absolute path
+	private static String filePath = "d:\\stocks"; // store report to this
+													// absolute path
 	private static String LAST_FIVE_YEARS_VARA = "最近五年方差";
 	private static String LAST_FIVE_YEARS_AVERAGE = "最近五年平均值";
 
@@ -114,7 +115,8 @@ public class CreateReport {
 						/* 获得股票代码 */
 						String stockCode = list.get(i).getStockCode();
 						/* 根据股票代码获得股票名称 */
-						sheet.addCell(new Label(0, i + 1, stocks.getstockBasicInfo().get(stockCode)));
+						sheet.addCell(
+								new Label(0, i + 1, stocks.getstockBasicInfo().get(stockCode) + "(" + stockCode + ")"));
 
 						/* 根据指标的汉字获得英文单词 */
 						String englishword = indexs.getKeyFromValueOngetEnglishWordToChinese(key);
