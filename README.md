@@ -5,11 +5,15 @@
 依赖的jar包传到百度云上了，首次使用需要从百度云上下载。
 
 2.Create a folder named depends in CollectStockInfo like below example.
-./findsuitablestocks
+
+
+    ./findsuitablestocks
     |
     |-- src
     |-- depends
     |_ .settings
+
+
 下载depends.zip，解压到工程目录findsuitablestocks下。
 
 3.Thank you for looking this readme.
@@ -20,7 +24,3 @@
 1.为什么没有把数据存到数据库？
 
 因为当时公司电脑和个人电脑同步不太方便，存到xls可以随时随地使用；数据量并不大；当时想学习java读写xls方面的知识；综合以上三个方面并没有选择使用数据库。
-
-2.为什么好多类名和方法名不太容易理解？
-
-暂时还没有重新整理，有一些不便于理解的地方还没有修改，一些不太容易理解的代码路径还没有调整。
