@@ -131,6 +131,8 @@ public class CreateReport {
 							String value = values.get(j);
 							if (!value.equals("null")) {
 								sheet.addCell(new Number(--column, row, Double.valueOf(value)));
+							} else {
+								sheet.addCell(new Label(--column, row, "null"));
 							}
 						}
 

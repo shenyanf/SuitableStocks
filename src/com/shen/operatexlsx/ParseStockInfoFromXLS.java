@@ -29,13 +29,11 @@ public class ParseStockInfoFromXLS {
 	private static String filePath = "d:\\stocks";
 
 	public static void main(String[] args) {
-		StockInfo stockInfo1 = new StockInfo("002672");
-		StockInfo stockInfo2 = new StockInfo("300137");
+		StockInfo stockInfo1 = new StockInfo("000088");
 		ParseStockInfoFromXLS parseStockInfoXLS = new ParseStockInfoFromXLS();
 
 		try {
 			parseStockInfoXLS.parse(stockInfo1);
-			parseStockInfoXLS.parse(stockInfo2);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

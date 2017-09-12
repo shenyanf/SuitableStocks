@@ -33,6 +33,7 @@ import jxl.write.biff.RowsExceededException;
 
 import com.shen.helper.Util;
 
+@Deprecated
 public class MNIOFCartogram {
 	private String stockCode;
 	private HashMap<String, List<String>> resMap;
