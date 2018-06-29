@@ -1,4 +1,4 @@
-﻿package com.shen.zlzj;
+package com.shen.zlzj;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,7 @@ import com.shen.helper.Util;
 public class MNIOFCartogram {
 	private String stockCode;
 	private HashMap<String, List<String>> resMap;
-	private String fileName = Util.filePath + File.separator + "主力资金净流向" + ".xls";
+	private String fileName = Util.FILE_PATH + File.separator + "主力资金净流向" + ".xls";
 
 	public MNIOFCartogram(String stockCode) {
 		this.stockCode = stockCode;

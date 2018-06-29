@@ -1,4 +1,4 @@
-﻿package com.shen.operatexlsx;
+package com.shen.operatexlsx;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +37,7 @@ public class DownLoadStockXLS {
 	public boolean downdLoadXLS(StockInfo stockInfo) {
 		String stockCode = stockInfo.getStockCode();
 		String uri = "http://basic.10jqka.com.cn/" + stockCode + "/xls/mainyear.xls";
-		File file = new File(Util.filePath + File.separator + stockCode + ".xls");
+		File file = new File(Util.FILE_PATH + File.separator + stockCode + ".xls");
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(uri);
