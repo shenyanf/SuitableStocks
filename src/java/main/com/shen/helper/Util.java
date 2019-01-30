@@ -2,24 +2,35 @@ package com.shen.helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.util.Cookie;
+
 public final class Util {
+    // 工程存储文件的目录
     public final static String FILE_PATH = "d:\\stocks";
-    private static String cookie;
 
     public Util() {
     }
@@ -44,6 +55,11 @@ public final class Util {
         return FILE_PATH;
     }
 
+    /**
+     * 所有目前状态为上市的股票的代码和名称
+     * 
+     * @return
+     */
     public static Map<String, String> loadAllStockCodeAndName() {
         String body = null;
         List<String> stockCodes = new ArrayList<String>();
@@ -96,30 +112,74 @@ public final class Util {
         return stockBasicInfo;
     }
 
+    /**
+     * 获取页面或这jsoup格式的信息
+     */
     public static String getDatas(String url) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CookieStore cookieStore = new BasicCookieStore();
         HttpGet httpGet = null;
         CloseableHttpResponse response = null;
         String respContent = "";
+        CloseableHttpClient httpClient = null;
+        List<Header> headers = new ArrayList<Header>();
+        StringBuilder cookieSb = new StringBuilder();
+
         try {
+            // Util.getCookies().forEach(c -> {
+            // String name = c.getName();
+            // String value = c.getValue();
+            // String domain = c.getDomain();
+            // Date expiryDate = c.getExpires();
+            // String path = c.getPath();
+            //
+            // BasicClientCookie basicClientCookie = new BasicClientCookie(name, value);
+            // basicClientCookie.setDomain(domain);
+            // basicClientCookie.setExpiryDate(expiryDate);
+            // basicClientCookie.setPath(path);
+            // cookieStore.addCookie(basicClientCookie);
+            // });
+
+            httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
+
+            headers.add(new BasicHeader(HttpHeaders.HOST, "q.10jqka.com.cn"));
+            headers.add(new BasicHeader(HttpHeaders.CONNECTION, "keep-alive"));
+            headers.add(new BasicHeader(HttpHeaders.UPGRADE, "1"));
+            headers.add(new BasicHeader(HttpHeaders.USER_AGENT,
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"));
+            headers.add(new BasicHeader(HttpHeaders.ACCEPT,
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"));
+            headers.add(new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"));
+            headers.add(new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate"));
+            headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "zh-CN,zh;q=0.9,en;q=0.8"));
+            headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
+            headers.add(new BasicHeader(HttpHeaders.PRAGMA, "no-cache"));
+
+            // 使用htmlUint获取cookie信息
+            Util.getCookies().forEach(c -> {
+                String name = c.getName();
+                String value = c.getValue();
+                String domain = c.getDomain();
+                Date expiryDate = c.getExpires();
+                String path = c.getPath();
+
+                cookieSb.append(name);
+                cookieSb.append("=");
+                cookieSb.append(value);
+                cookieSb.append(";");
+            });
+            headers.add(new BasicHeader("Cookie", cookieSb.toString()));
+            // headers.add(new BasicHeader("Cookie", "v=Ah4lzQM9zhjvAxp8tw9es48wb79j3-P1dKKWNMinj0pd1LBpMG8yaUQz5lOb"));
+
             httpGet = new HttpGet(url);
-            httpGet.setHeader("Host", "q.10jqka.com.cn");
-            httpGet.setHeader("Connection", "keep-alive");
-            httpGet.setHeader("Pragma", "no-cache");
-            httpGet.setHeader("Cache-Control", "no-cache");
-            httpGet.setHeader("Upgrade-Insecure-Requests", "1");
-            httpGet.setHeader("User-Agent",
-                    "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36");
-            httpGet.setHeader("Accept",
-                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
-            httpGet.setHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-            httpGet.setHeader("Cookie", cookie);
+            for (Header h : headers) {
+                httpGet.setHeader(h);
+            }
 
             response = httpClient.execute(httpGet);
 
-            System.out.println(response.getStatusLine());
+            System.out.println("request url:" + url + " response status:" + response.getStatusLine());
             HttpEntity entity = response.getEntity();
+
             if (entity != null) {
                 respContent = EntityUtils.toString(response.getEntity(), "utf-8");
                 System.out.println(respContent);
@@ -146,19 +206,30 @@ public final class Util {
         return respContent;
     }
 
-    public static String getCookie() {
-        return cookie;
-    }
-
-    public static void setCookie(String cookie) {
-        Util.cookie = cookie;
+    /**
+     * 使用htmlunit获取cookie信息
+     * 
+     * @return
+     */
+    public static Set<Cookie> getCookies() {
+        WebClient webClient = new WebClient();
+        Set<Cookie> cookies = null;
+        try {
+            HtmlPage page = webClient.getPage("http://q.10jqka.com.cn");
+            System.out.println(page.getHead());
+            cookies = webClient.getCookieManager().getCookies();
+            cookies.forEach(c -> System.out.println(c));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return cookies;
     }
 
     public static void main(String[] args) {
-        String url = "http://q.10jqka.com.cn/thshy/detail/field/199112/order/desc/page/2/ajax/1/code/881125";
-        String cookie = "v=AmO5bVZ7PH_FCfBLYcnZ0XvH8qwOWPaeMek7yJXAv445Z41aHSiH6kG8z6ym";
-        Util.setCookie(cookie);
-        Util.loadAllStockCodeAndName();
+        String url = "http://q.10jqka.com.cn/thshy/detail/field/199112/order/desc/page/1/ajax/1/code/881155";
+        String basicUrl = "http://www.10jqka.com.cn/";
+        Util.getDatas(url);
     }
 
 }

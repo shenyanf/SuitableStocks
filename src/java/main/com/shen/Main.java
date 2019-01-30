@@ -1,4 +1,5 @@
-﻿
+package com.shen;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +7,6 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import com.shen.TradeStocks;
 import com.shen.entity.StockInfo;
 import com.shen.operatexlsx.DownLoadStockXLS;
 import com.shen.operatexlsx.ParseStockInfoFromXLS;
@@ -24,7 +24,7 @@ public class Main {
 		 * 汽车零部件,汽车整车,其他电子,燃气水务,食品加工制造,视听器材,生物制品,石油矿业开采,通信服务,通信设备,通用设备,物流,新材料,
 		 * 医疗器械服务,饮料制造,园区开发,仪器仪表,有色冶炼加工,银行,医药商业,养殖业,综合,证券,中药,专用设备,造纸,种植业与林业
 		 */
-		TradeStocks stocks = new TradeStocks("环保工程");
+		TradeStocks stocks = new TradeStocks("银行");
 		try {
 			stocks.getStockCodeAndName();
 		} catch (JSONException e1) {

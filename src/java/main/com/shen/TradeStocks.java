@@ -24,7 +24,7 @@ public class TradeStocks {
     private String tradeName;
 
     public static void main(String[] args) {
-        TradeStocks stocks = new TradeStocks("零售");
+        TradeStocks stocks = new TradeStocks("银行");
         try {
             stocks.getStockCodeAndName();
         } catch (JSONException e) {
@@ -62,6 +62,12 @@ public class TradeStocks {
         }
     }
 
+    /**
+     * 属于该行业的股票名称及代码
+     * 
+     * @return
+     * @throws JSONException
+     */
     public List<String> getStockCodeAndName() throws JSONException {
         String body = null;
         List<String> stockCodes = new ArrayList<String>();
@@ -80,11 +86,6 @@ public class TradeStocks {
             /* bs4 解析html */
             body = Util.getDatas(url);
 
-            // 如果包含这个信息，就说明翻页到头了
-            if (body.contains("暂无成份股数据")) {
-                break;
-            }
-
             Document doc = Jsoup.parse(body, "UTF-8");
             // baseUri 参数用于解决文件中URLs是相对路径的问题。如果不需要可以传入一个空的字符串。
             doc.setBaseUri("http://q.10jqka.com.cn");
@@ -100,6 +101,15 @@ public class TradeStocks {
                     stockNames.add(linkText);
                 }
             }
+            // 没有匹配的信息，就终止循环
+            if (links.size() <= 0) {
+                break;
+            }
+
+            Elements elements = doc.getElementsByClass("page_info");
+            elements.forEach(e -> {
+                System.out.println("page_info:" + e.text());
+            });
         }
         for (int i = 0; i < stockCodes.size(); i++) {
             String code = stockCodes.get(i);
