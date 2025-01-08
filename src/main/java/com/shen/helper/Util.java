@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.shen.Const;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -29,35 +30,23 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 
 public final class Util {
-    // 工程存储文件的目录
-    public final static String FILE_PATH = "d:\\stocks";
-
-    public Util() {
-    }
-
     /**
      * check sourceString is Chinese or not
-     * 
+     *
      * @param sourceString
      * @return
      */
     public static boolean checkChinese(String sourceString) {
-        /*
-         * String regEx = "[\\u4e00-\\u9fa5]"; Pattern p = Pattern.compile(regEx); Matcher m = p.matcher(sourceString);
-         * int count = 0; while (m.find()) { for (int i = 0; i <= m.groupCount(); i++) { count = count + 1; } } return
-         * count > 0;
-         */
-
         return sourceString.getBytes().length == sourceString.length() ? false : true;
     }
 
     public static String getFilePath() {
-        return FILE_PATH;
+        return Const.FILE_PATH;
     }
 
     /**
      * 所有目前状态为上市的股票的代码和名称
-     * 
+     *
      * @return
      */
     public static Map<String, String> loadAllStockCodeAndName() {
@@ -67,12 +56,12 @@ public final class Util {
         Map<String, String> stockBasicInfo = new HashMap<String, String>();
 
         /* get stockcode in circle */
-        for (int i = 1;; i++) {
+        for (int i = 1; ; i++) {
             String url = "http://q.10jqka.com.cn/index/index/board/all/field/zdf/order/desc/page/" + i + "/ajax/1/";
 
             try {
                 /* bs4 解析html */
-                body = getDatas(url);
+                body = getData(url);
 
                 Document doc = Jsoup.parse(body, "UTF-8");
                 // baseUri 参数用于解决文件中URLs是相对路径的问题。如果不需要可以传入一个空的字符串。
@@ -115,7 +104,7 @@ public final class Util {
     /**
      * 获取页面或这jsoup格式的信息
      */
-    public static String getDatas(String url) {
+    public static String getData(String url) {
         CookieStore cookieStore = new BasicCookieStore();
         HttpGet httpGet = null;
         CloseableHttpResponse response = null;
@@ -208,7 +197,7 @@ public final class Util {
 
     /**
      * 使用htmlunit获取cookie信息
-     * 
+     *
      * @return
      */
     public static Set<Cookie> getCookies() {
@@ -224,12 +213,6 @@ public final class Util {
         } finally {
         }
         return cookies;
-    }
-
-    public static void main(String[] args) {
-        String url = "http://q.10jqka.com.cn/thshy/detail/field/199112/order/desc/page/1/ajax/1/code/881155";
-        String basicUrl = "http://www.10jqka.com.cn/";
-        Util.getDatas(url);
     }
 
 }

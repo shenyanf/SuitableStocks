@@ -1,8 +1,10 @@
-package com.shen;
+package com.shen.trade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,24 +15,14 @@ import com.shen.helper.Util;
 
 /**
  * 获取指定行业下的所有公司
- * 
+ *
  * @author heshanshan
- * 
  */
 public class TradeStocks {
     /* basic info is code and name */
     private HashMap<String, String> stockBasicInfo = new HashMap<String, String>();
 
     private String tradeName;
-
-    public static void main(String[] args) {
-        TradeStocks stocks = new TradeStocks("银行");
-        try {
-            stocks.getStockCodeAndName();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public TradeStocks() {
         stockBasicInfo.put("300152", "燃控科技");
@@ -50,11 +42,10 @@ public class TradeStocks {
          */
     }
 
-    public TradeStocks(String tradeName) {
-        // if (getStockCodeAndName(tradeName) != null) {
-        // System.out.println("Get stock code and name about tade " + tradeName
-        // + "successful");
-        // }
+    public TradeStocks(String tradeName) throws Exception {
+        if (StringUtils.isBlank(tradeName)) {
+            throw new Exception("tradeName 不能为空");
+        }
         if (Util.checkChinese(tradeName)) {
             this.tradeName = AllTrades.tradeShortAndName.get(tradeName);
         } else {
@@ -64,7 +55,7 @@ public class TradeStocks {
 
     /**
      * 属于该行业的股票名称及代码
-     * 
+     *
      * @return
      * @throws JSONException
      */
@@ -79,12 +70,12 @@ public class TradeStocks {
         }
 
         /* get stockcode in circle */
-        for (int i = 1;; i++) {
+        for (int i = 1; ; i++) {
             String url = "http://q.10jqka.com.cn/thshy/detail/field/199112/order/desc/page/" + i + "/ajax/1/code/"
                     + tradeName;
 
             /* bs4 解析html */
-            body = Util.getDatas(url);
+            body = Util.getData(url);
 
             Document doc = Jsoup.parse(body, "UTF-8");
             // baseUri 参数用于解决文件中URLs是相对路径的问题。如果不需要可以传入一个空的字符串。

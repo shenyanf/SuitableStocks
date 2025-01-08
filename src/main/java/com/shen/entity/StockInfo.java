@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.shen.helper.Indexs;
+import com.shen.helper.Indexes;
 
 /**
  * 股票的历年的权益信息，从年报中获取
@@ -17,7 +17,7 @@ import com.shen.helper.Indexs;
 public class StockInfo {
     private String stockCode;
     private String stockName;
-    private final static Indexs indexs = Indexs.getIndexs();
+    private final static Indexes INDEXES = Indexes.getIndexes();
     private List<String> years = new ArrayList<String>();
     private List<String> basicEarningsPerShare = new ArrayList<String>();// 基本每股收益
     private List<String> netProfit = new ArrayList<String>();// 净利润
@@ -57,7 +57,7 @@ public class StockInfo {
         Iterator<Entry<String, List<String>>> iter = infos.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<String, List<String>> entry = iter.next();
-            Object key = indexs.getEnglishWordToChinese().get(entry.getKey());
+            Object key = INDEXES.getEnglish2ChineseMap().get(entry.getKey());
             Object val = entry.getValue();
             sb.append(key + " ");
             sb.append(val + "\n");

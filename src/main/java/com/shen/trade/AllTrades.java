@@ -1,4 +1,4 @@
-package com.shen;
+package com.shen.trade;
 
 import java.util.HashMap;
 
@@ -10,10 +10,6 @@ import java.util.HashMap;
  */
 public class AllTrades {
     public static HashMap<String, String> tradeShortAndName = init();
-
-    public static void main(String[] args) {
-        AllTrades allTrades = new AllTrades();
-    }
 
     private static HashMap<String, String> init() {
         HashMap<String, String> hashMap = new HashMap<String, String>();

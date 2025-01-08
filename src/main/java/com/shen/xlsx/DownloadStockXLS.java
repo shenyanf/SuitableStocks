@@ -1,15 +1,13 @@
-package com.shen.operatexlsx;
+package com.shen.xlsx;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -19,28 +17,20 @@ import com.shen.helper.Util;
 
 /**
  * download stock information from Internet in excel type
- * 
+ *
  * @author heshanshan
- * 
  */
-public class DownLoadStockXLS {
-    public static void main(String[] args) {
-        DownLoadStockXLS downLoadStockInfo = new DownLoadStockXLS();
-        StockInfo stockInfo = new StockInfo("300137");
-
-        downLoadStockInfo.downdLoadXLS(stockInfo);
-    }
-
+public class DownloadStockXLS {
     /**
      * down stock information xls file from tonghuashun
-     * 
+     *
      * @param stockInfo
      * @return
      */
-    public boolean downdLoadXLS(StockInfo stockInfo) {
+    public boolean downloadXLS(StockInfo stockInfo) {
         String stockCode = stockInfo.getStockCode();
         String uri = "http://basic.10jqka.com.cn/" + stockCode + "/xls/mainyear.xls";
-        File file = new File(Util.FILE_PATH + File.separator + stockCode + ".xls");
+        File file = new File(Util.getFilePath() + File.separator + stockCode + ".xls");
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
