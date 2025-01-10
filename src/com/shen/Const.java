@@ -1,8 +1,7 @@
 package com.shen;
 
-import org.w3c.dom.stylesheets.LinkStyle;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName com.shen.Const
@@ -31,41 +30,39 @@ public class Const {
      */
     public static final int VARIANCE_YEAR = 3;
 
-    public static final List<String> VARIANCE_YEAR_RANGE = varianceYearRange();
-
     public static final String RECENT_YEARS_VARIANCE = "最近三年方差";
     public static final String RECENT_YEARS_AVERAGE = "最近三年平均值";
 
     /**
      * 年报有很多年前的数据，参与处理的年份范围
+     * 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016
      *
      * @return
      */
     private static List<String> needProcessYearRange() {
         List<String> yearRange = new ArrayList<>();
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        Calendar instance = Calendar.getInstance();
+        int currentYear = instance.get(Calendar.YEAR);
+        int currentMonth = instance.get(Calendar.MONTH);
+        int start = 1;
+        // 最晚4.30号公布上一年年报
+        if (currentMonth < Calendar.MAY) {
+            start = 2;
+        }
 
-        for (int i = 0; i < Const.COUNT_YEARS; i++) {
+        for (int i = start; i < Const.COUNT_YEARS; i++) {
             yearRange.add(String.valueOf(currentYear - i));
         }
 
         return yearRange;
     }
 
+    public static void main(String[] args) {
+        List<String> processYearRange = Const.PROCESS_YEAR_RANGE;
+        Collections.reverse(processYearRange);
+        System.out.println(processYearRange);
 
-    /**
-     * 参与平均值和方差计算的年份
-     *
-     * @return
-     */
-    private static List<String> varianceYearRange() {
-        List<String> yearRange = new ArrayList<>();
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-        for (int i = 0; i < Const.VARIANCE_YEAR; i++) {
-            yearRange.add(String.valueOf(currentYear - i));
-        }
-
-        return yearRange;
+        List<String> collect = Const.PROCESS_YEAR_RANGE.stream().sorted().collect(Collectors.toList());
+        System.out.println(collect);
     }
 }

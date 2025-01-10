@@ -21,15 +21,14 @@ public class JustTest {
     public void createReport() {
         CreateReport createReport = new CreateReport();
         ParseStockInfoFromXLS parseStockInfoXLS = new ParseStockInfoFromXLS();
-        StockInfo stockInfo = new StockInfo("002672");
-        TradeStocks stocks = new TradeStocks();
-        stocks.getstockBasicInfo().put("002672", "东江环保");
 
-        List<StockInfo> list = new ArrayList<StockInfo>();
-        list.add(stockInfo);
+        TradeStocks stocks = new TradeStocks();
+        stocks.getstockBasicInfo().put("600066", "宇通客车");
 
         try {
-            parseStockInfoXLS.parse(stockInfo);
+            StockInfo stockInfo = parseStockInfoXLS.parse("600066");
+            List<StockInfo> list = new ArrayList<StockInfo>();
+            list.add(stockInfo);
             createReport.writeExcel(list, stocks);
         } catch (BiffException | IOException e) {
             e.printStackTrace();
@@ -46,9 +45,8 @@ public class JustTest {
     @Test
     public void downloadXLS() {
         DownloadStockXLS downLoadStockInfo = new DownloadStockXLS();
-        StockInfo stockInfo = new StockInfo("300137");
 
-        downLoadStockInfo.downloadXLS(stockInfo);
+        downLoadStockInfo.downloadXLS("300137");
     }
 
     @Test
@@ -71,11 +69,11 @@ public class JustTest {
 
     @Test
     public void getStockInfoFromXLS() {
-        StockInfo stockInfo1 = new StockInfo("601777");
         ParseStockInfoFromXLS parseStockInfoXLS = new ParseStockInfoFromXLS();
 
         try {
-            parseStockInfoXLS.parse(stockInfo1);
+            StockInfo stockInfo = parseStockInfoXLS.parse("600066");
+            System.out.println(stockInfo);
         } catch (IOException | BiffException e) {
             e.printStackTrace();
         }

@@ -33,16 +33,14 @@ public class Main {
         List<StockInfo> stockInfos = new ArrayList<StockInfo>();
 
         for (String stockCode : stocks.getstockBasicInfo().keySet()) {
-            StockInfo stockInfo = new StockInfo(stockCode);
-            stockInfo.setStockName(stocks.getstockBasicInfo().getOrDefault(stockCode, "未知"));
-            stockInfos.add(stockInfo);
-
-//            if (!downLoadStockInfo.downloadXLS(stockInfo)) {
-//                System.out.println("down load xls about " + stockInfo.getStockCode() + " failed");
-//            }
+            if (!downLoadStockInfo.downloadXLS(stockCode)) {
+                System.out.println("down load xls about " + stockCode + " failed");
+            }
 
             try {
-                parseStockInfoXLS.parse(stockInfo);
+                StockInfo stockInfo = parseStockInfoXLS.parse(stockCode);
+                stockInfo.setStockName(stocks.getstockBasicInfo().getOrDefault(stockCode, "未知"));
+                stockInfos.add(stockInfo);
             } catch (BiffException | IOException e) {
                 e.printStackTrace();
             }

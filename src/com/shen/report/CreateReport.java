@@ -37,11 +37,8 @@ public class CreateReport {
         WritableWorkbook book = null;
         WritableSheet sheet;
         Indexes indexes = Indexes.getIndexes();
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         // 第几个sheet
         int sheetNum = 0;
-        int column;
-        int row;
 
         String fileName = Util.getFilePath() + File.separator;
         if (stocks.getTradeName() != null) {
@@ -64,28 +61,29 @@ public class CreateReport {
                 // 1.0 设置标题
                 sheet.addCell(new Label(0, 0, "年份"));
 
-                /* 生成年份标题行 */
-                for (int i = 1; i < Const.COUNT_YEARS; i++) {
-                    sheet.addCell(new Number(i, 0, currentYear - Const.COUNT_YEARS + i));
+                //生成年份标题行
+                //2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023
+                List<String> ascSortedYear = Const.PROCESS_YEAR_RANGE.stream().sorted().collect(Collectors.toList());
+                int sortedYearLength = ascSortedYear.size();
+                for (int i = 0; i < sortedYearLength; i++) {
+                    sheet.addCell(new Label(i + 1, 0, ascSortedYear.get(i)));
                 }
 
-                sheet.setColumnView(Const.COUNT_YEARS + 2, cellView);// 根据内容自动设置列宽
-                sheet.setColumnView(Const.COUNT_YEARS + 3, cellView);// 根据内容自动设置列宽
+                sheet.setColumnView(sortedYearLength + 3, cellView);// 根据内容自动设置列宽
+                sheet.setColumnView(sortedYearLength + 4, cellView);// 根据内容自动设置列宽
                 /* 方差和平均值标题栏 */
-                sheet.addCell(new Label(Const.COUNT_YEARS + 2, 0, Const.RECENT_YEARS_VARIANCE));
-                sheet.addCell(new Label(Const.COUNT_YEARS + 3, 0, Const.RECENT_YEARS_AVERAGE));
+                sheet.addCell(new Label(sortedYearLength + 3, 0, Const.RECENT_YEARS_VARIANCE));
+                sheet.addCell(new Label(sortedYearLength + 4, 0, Const.RECENT_YEARS_AVERAGE));
 
 
                 // 2.0 写入数据
                 if (list != null && !list.isEmpty()) {
                     /* 根据指标的汉字获得英文单词 */
                     String englishWord = indexes.getKeyFromValueOngetEnglishWordToChinese(sheetName);
-                    List<ExcelRow> excelRows = assembleData(list, englishWord);
+                    List<ExcelRow> excelRows = assembleData(list, englishWord, ascSortedYear);
                     Comparator<ExcelRow> comparator = (row1, row2) -> {
                         List<Double> data1 = row1.getData();
                         List<Double> data2 = row2.getData();
-
-                        System.out.println(row1.getStockBasicInfo() + "  " + row2.getStockBasicInfo());
 
                         int size = data1.size();
                         // 比较最后一列年度指标
@@ -108,19 +106,18 @@ public class CreateReport {
                     for (int i = 0; i < excelRows.size(); i++) {
                         /* 获得股票代码 */
                         ExcelRow excelRow = excelRows.get(i);
-
                         sheet.addCell(new Label(0, i + 1, excelRow.getStockBasicInfo()));
 
-                        column = Const.COUNT_YEARS + 4;
-                        row = i + 1;
+                        int row = i + 1;
 
                         /* 写入股票相关指标指 */
                         List<Double> data = excelRow.getData();
-                        for (Double value : data) {
-                            if (value != null) {
-                                sheet.addCell(new Number(--column, row, value));
+                        for (int i1 = 0; i1 < data.size(); i1++) {
+                            Double value = data.get(i1);
+                            if (value == null || value.equals(Double.MIN_VALUE)) {
+                                sheet.addCell(new Label(i1 + 1, row, ""));
                             } else {
-                                sheet.addCell(new Label(--column, row, "null"));
+                                sheet.addCell(new Number(i1 + 1, row, value));
                             }
                         }
                     }
@@ -182,11 +179,12 @@ public class CreateReport {
     /**
      * 组装excel数据
      *
-     * @param list
-     * @param key
-     * @return
+     * @param list          股票信息
+     * @param key           指标对应的英文
+     * @param ascSortedYear 年份，正序排列
+     * @return 拼装好的数据
      */
-    private List<ExcelRow> assembleData(List<StockInfo> list, String key) {
+    private List<ExcelRow> assembleData(List<StockInfo> list, String key, List<String> ascSortedYear) {
         List<ExcelRow> excelRows = new ArrayList<>(list.size());
 
         for (StockInfo stockInfo : list) {
@@ -198,9 +196,9 @@ public class CreateReport {
             // 获取对应的值
             List<ContentItem> contentItems = stockInfo.getInfos().get(key);
             Map<String, String> map = contentItems.stream().collect(Collectors.toMap(ContentItem::getYear, ContentItem::getContent));
-            for (String year : Const.PROCESS_YEAR_RANGE) {
+            for (String year : ascSortedYear) {
                 String orDefault = map.getOrDefault(year, null);
-                if (orDefault == null) {
+                if (orDefault == null || "null".equals(orDefault)) {
                     data.add(Double.MIN_VALUE);
                 } else {
                     data.add(Double.parseDouble(orDefault));
@@ -208,7 +206,7 @@ public class CreateReport {
             }
 
             // 计算方差
-            double[] doubles = data.subList(0, Const.VARIANCE_YEAR).stream().mapToDouble(Double::doubleValue).toArray();
+            double[] doubles = data.subList(ascSortedYear.size() - Const.VARIANCE_YEAR, ascSortedYear.size()).stream().mapToDouble(Double::doubleValue).toArray();
             DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics(doubles);
             double variance = descriptiveStatistics.getVariance();
 
@@ -223,8 +221,6 @@ public class CreateReport {
 
             excelRows.add(excelRow);
         }
-        System.out.println();
-        excelRows.forEach(System.out::println);
 
         return excelRows;
     }

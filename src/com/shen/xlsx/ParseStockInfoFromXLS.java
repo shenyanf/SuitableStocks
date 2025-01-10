@@ -29,14 +29,16 @@ public class ParseStockInfoFromXLS {
     /**
      * 解析股票对应年报的xls文件
      *
-     * @param stockInfo
+     * @param stockCode
      * @throws FileNotFoundException
      * @throws IOException
      * @throws BiffException
      */
-    public void parse(StockInfo stockInfo) throws FileNotFoundException, IOException, BiffException {
+    public StockInfo parse(String stockCode) throws FileNotFoundException, IOException, BiffException {
+        StockInfo stockInfo = new StockInfo(stockCode);
+
         jxl.Workbook readwb;
-        String path = Util.getFilePath() + File.separator + stockInfo.getStockCode() + ".xls";
+        String path = Util.getFilePath() + File.separator + stockCode + ".xls";
         InputStream instream = new FileInputStream(path);
         readwb = Workbook.getWorkbook(instream);
 
@@ -77,7 +79,7 @@ public class ParseStockInfoFromXLS {
                 storeInfo(stockInfo, cellContent, indexFlag, year);
             }
         }
-        System.out.println(stockInfo);
+        return stockInfo;
     }
 
     /**
@@ -128,7 +130,6 @@ public class ParseStockInfoFromXLS {
             default:
                 break;
         }
-
     }
 
 }

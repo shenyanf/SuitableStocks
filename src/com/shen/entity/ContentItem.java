@@ -23,4 +23,12 @@ public class ContentItem {
     public String getContent() {
         return content;
     }
+
+    @Override
+    public String toString() {
+        return "ContentItem{" +
+                "year='" + year + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

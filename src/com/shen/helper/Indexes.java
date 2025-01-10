@@ -36,7 +36,7 @@ public class Indexes {
         english2ChineseMap.put("operationRevenueGrowthRat", "营业总收入同比增长率(%)");
         english2ChineseMap.put("netAssetsPerShare", "每股净资产(元)");
         english2ChineseMap.put("liability", "净资产收益率(%)");
-        english2ChineseMap.put("eachCapitalReserveFund", "每股资本公积金(元)积金");
+        english2ChineseMap.put("eachCapitalReserveFund", "每股资本公积金(元)");
         english2ChineseMap.put("nonDistributionProfitPerShare", "每股未分配利润(元)");
         english2ChineseMap.put("operatingCashFlowPerShare", "每股经营现金流(元)");
         english2ChineseMap.put("grossProfitMargin", "销售毛利率(%)");

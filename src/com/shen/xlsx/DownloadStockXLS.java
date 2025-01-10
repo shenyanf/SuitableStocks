@@ -24,11 +24,10 @@ public class DownloadStockXLS {
     /**
      * down stock information xls file from tonghuashun
      *
-     * @param stockInfo
+     * @param stockCode
      * @return
      */
-    public boolean downloadXLS(StockInfo stockInfo) {
-        String stockCode = stockInfo.getStockCode();
+    public boolean downloadXLS(String stockCode) {
         String uri = "http://basic.10jqka.com.cn/" + stockCode + "/xls/mainyear.xls";
         File file = new File(Util.getFilePath() + File.separator + stockCode + ".xls");
 
