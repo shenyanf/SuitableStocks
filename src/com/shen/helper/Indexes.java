@@ -1,6 +1,8 @@
 package com.shen.helper;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 中文和英文对应关系
@@ -8,26 +10,25 @@ import java.util.HashMap;
  * @author heshanshan
  */
 public class Indexes {
-    private HashMap<String, Integer> chinese2IntMap = new HashMap<String, Integer>();
-    private HashMap<String, String> english2ChineseMap = new HashMap<String, String>();
+    private HashMap<String, Integer> chinese2IntMap = new HashMap<>();
+    private HashMap<String, String> english2ChineseMap = new HashMap<>();
     private static Indexes indexes = new Indexes();
+    private List<String> sheetName = Arrays.asList("基本每股收益(元)", "净利润(万元)", "净利润同比增长率(%)", "营业总收入(万元)", "营业总收入同比增长率(%)", "每股净资产(元)", "净资产收益率(%)", "每股资本公积金(元)", "每股未分配利润(元)", "每股经营现金流(元)", "销售毛利率(%)", "存货周转率(%)");
 
     private Indexes() {
-        chinese2IntMap.put("科目\\时间(年)", 1);// "years");
-        chinese2IntMap.put("基本每股收益(元)", 2);// "basicEarningsPerShare");
-        chinese2IntMap.put("净利润(万元)", 3);// "netProfit");
-        chinese2IntMap.put("净利润同比增长率(%)", 4);// "netProfitGrowthRat");
-        chinese2IntMap.put("营业总收入(万元)", 5);// "operationRevenue");
-        chinese2IntMap.put("营业总收入同比增长率(%)", 6);// "operationRevenueGrowthRat");
-        chinese2IntMap.put("每股净资产(元)", 7);// "netAssetsPerShare");
-        chinese2IntMap.put("净资产收益率(%)", 8);// "liability");
-        chinese2IntMap.put("每股资本公积金(元)积金", 9);// "eachCapitalReserveFund");
-        chinese2IntMap.put("每股未分配利润(元)", 10);// "nonDistributionProfitPerShare");
-        chinese2IntMap.put("每股经营现金流(元)", 11);// "operatingCashFlowPerShare");
-        chinese2IntMap.put("销售毛利率(%)", 12);// "grossProfitMargin");
-        chinese2IntMap.put("存货周转率(%)", 13);// "inventoryTurnOver");
+        chinese2IntMap.put("基本每股收益", 1);// "basicEarningsPerShare");
+        chinese2IntMap.put("净利润", 2);// "netProfit");
+        chinese2IntMap.put("净利润同比增长率", 3);// "netProfitGrowthRat");
+        chinese2IntMap.put("营业总收入", 4);// "operationRevenue");
+        chinese2IntMap.put("营业总收入同比增长率", 5);// "operationRevenueGrowthRat");
+        chinese2IntMap.put("每股净资产", 6);// "netAssetsPerShare");
+        chinese2IntMap.put("净资产收益率", 7);// "liability");
+        chinese2IntMap.put("每股资本公积金", 8);// "eachCapitalReserveFund");
+        chinese2IntMap.put("每股未分配利润", 9);// "nonDistributionProfitPerShare");
+        chinese2IntMap.put("每股经营现金流", 10);// "operatingCashFlowPerShare");
+        chinese2IntMap.put("销售毛利率", 11);// "grossProfitMargin");
+        chinese2IntMap.put("存货周转率", 12);// "inventoryTurnOver");
 
-        english2ChineseMap.put("years", "科目\\时间(年)");
         english2ChineseMap.put("basicEarningsPerShare", "基本每股收益(元)");
         english2ChineseMap.put("netProfit", "净利润(万元)");
         english2ChineseMap.put("netProfitGrowthRat", "净利润同比增长率(%)");
@@ -59,15 +60,11 @@ public class Indexes {
         return chinese2IntMap;
     }
 
-    public void setChinese2IntMap(HashMap<String, Integer> chinese2IntMap) {
-        this.chinese2IntMap = chinese2IntMap;
-    }
-
     public HashMap<String, String> getEnglish2ChineseMap() {
         return english2ChineseMap;
     }
 
-    public void setEnglish2ChineseMap(HashMap<String, String> english2ChineseMap) {
-        this.english2ChineseMap = english2ChineseMap;
+    public List<String> getSheetName() {
+        return sheetName;
     }
 }

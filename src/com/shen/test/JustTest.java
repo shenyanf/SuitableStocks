@@ -1,3 +1,5 @@
+package com.shen.test;
+
 import com.shen.trade.AllTrades;
 import com.shen.trade.TradeStocks;
 import com.shen.entity.StockInfo;
@@ -69,7 +71,7 @@ public class JustTest {
 
     @Test
     public void getStockInfoFromXLS() {
-        StockInfo stockInfo1 = new StockInfo("000088");
+        StockInfo stockInfo1 = new StockInfo("601777");
         ParseStockInfoFromXLS parseStockInfoXLS = new ParseStockInfoFromXLS();
 
         try {

@@ -41,6 +41,12 @@
             <version>1.11.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
@@ -53,6 +59,11 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20180813</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>json-util-library</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit -->
